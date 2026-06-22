@@ -1,10 +1,11 @@
 <?php
+    // Settings of project
     return [
         'baseURL' => '/php-registration-form/',
         'registry' => [
-            'utils' => ['ControllerInterface'],
+            'utils' => ['ControllerTrait', 'ControllerInterface'],
             'core' => ['Request', 'Response', 'Router'],
-            'services' => [],
+            'services' => ['RegistrationService'],
             'controllers' => ['MainController']
         ]
     ];

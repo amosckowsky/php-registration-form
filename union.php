@@ -1,10 +1,12 @@
 <?php
+    // Function for loading all files from registryObject
     function loadFiles(mixed $registryObject, string $objectKey) {
         foreach ($registryObject as $file) {
                 require_once "$objectKey/$file.php";
             }
     }
 
+    // Function for loading all necessary files that indicated in registry
     function loadRegistry(mixed $registry) {
             loadFiles($registry['utils'], 'utils');
             loadFiles($registry['core'], 'core');
