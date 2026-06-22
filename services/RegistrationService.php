@@ -6,13 +6,13 @@
 
     class RegistrationService {
         public $rules = [
-            'first_name' => '^.{3,15}$',
-            'last_name' => '^.{3,20}$',
-            'birthdate' => '^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$',
-            'report_subject' => '^(.*)$',
-            'country_id' => '^\d+$',
-            'phone' => '^(\+\d{12})$',
-            'email' => '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+            'first_name' => '/^.{3,15}$/',
+            'last_name' => '/^.{3,20}$/',
+            'birthdate' => '/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/',
+            'report_subject' => '/^(.*)$/',
+            'country_id' => '/^\d+$/',
+            'phone' => '/^\d{12}$/',
+            'email' => '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'
         ];
 
         public function validate($object): bool {
@@ -57,13 +57,22 @@
                 );
             ';
             $pdo->exec($sql);
-            $query = $pdo->prepare("INSERT INTO users (first_name, last_name, birdthdate, report_subject, country, phone, email) VALUES (:first_name, :last_name, :birdthdate, :report_subject, :country, :phone, :email)");
+            $query = $pdo->prepare("INSERT INTO users (first_name, last_name, birdthdate, report_subject, country_id, phone, email) VALUES (:first_name, :last_name, :birthdate, :report_subject, :country_id, :phone, :email)");
             $query->execute($object);
             
         }
 
         public function update() {
 
+        }
+
+        public function getCountries() {
+            $pdo = new PDO($_ENV['dsn'], $_ENV['user'], $_ENV['password']);
+            $query = $pdo->prepare('SELECT * FROM countries');
+            $query->execute();
+            
+            $countries = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $countries;
         }
     }
 ?>

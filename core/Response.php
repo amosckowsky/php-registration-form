@@ -9,7 +9,8 @@
             $this->templatePath = $templatePath;
         }
 
-        public function render() {
+        public function render($context = []) {
+            extract($context);
             http_response_code($this->statusCode);
             require $this->templatePath;
         }

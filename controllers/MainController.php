@@ -16,10 +16,15 @@
         }
 
         public function post(Request $request): void {
-            $this->service->validate($request->post);
+            if ($this->service->validate($request->post)) {
+                $this->service->register($request->post);
+            }
         }
         public function get(Request $request): void {
-            require 'views/index.php';
+            $response = new Response('views/index.php');
+            $response->render([
+                'countries' => $this->service->getCountries()
+            ]);
         }
         // Adding handling function
         use ControllerTrait;
