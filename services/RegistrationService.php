@@ -19,6 +19,12 @@
             'about_me' => '/.*/'
         ];
         private $errors = [];
+        private string $media_path;
+
+
+        public function __construct(string $media_path) {
+            $this->media_path = $media_path;
+        }
 
         // Validating form
         public function validate($object): bool {
@@ -43,12 +49,17 @@
         }
 
         // Registration user
-        public function register($object) {
+        public function register($object, $files = []) {
             // If form contains empty fields - set them to null
             foreach($object as $key => $value) {
                 if ($value === '') {
                     $object[$key] = null;
                 }
+            }
+            if (isset($files['photo'])){
+                $object['photo'] = $this->savePhoto($files['photo']);
+            } else {
+                $object['photo'] = null;
             }
             // Connection by dotenv data
             $pdo = new PDO($_ENV['dsn'], $_ENV['user'], $_ENV['password']);
@@ -80,20 +91,54 @@
             ';
             $pdo->exec($sql);
             // Add new user
-            $query = $pdo->prepare("INSERT INTO users (first_name, last_name, birthdate, report_subject, country_id, phone, email, company, position, about_me) VALUES (:first_name, :last_name, :birthdate, :report_subject, :country_id, :phone, :email, :company, :position, :about_me)");
+            $query = $pdo->prepare("INSERT INTO users (first_name, last_name, birthdate, report_subject, country_id, phone, email, company, position, about_me, photo_path) VALUES (:first_name, :last_name, :birthdate, :report_subject, :country_id, :phone, :email, :company, :position, :about_me, :photo)");
             $query->execute($object);
-            
+        }
+
+        public function savePhoto($photo) {
+            if (empty($photo) || !isset($photo['tmp_name']) || empty($photo['tmp_name'])) {
+                return null; 
+            }
+            $target_file = $this->media_path . uniqid('IMG_', true) . '.' . strtolower(pathinfo($photo['name'], PATHINFO_EXTENSION));
+            $uploadOk = 1;
+            $check = getimagesize($photo["tmp_name"]);
+            if($check !== false) {
+                $uploadOk = 1;
+            } else {
+                $uploadOk = 0;
+            }
+            if ($photo["size"] > 500000) {
+                echo "Sorry, your file is too large.";
+                $uploadOk = 0;
+            }
+            if ($uploadOk == 1) {
+                if (move_uploaded_file($photo["tmp_name"], $target_file)) {
+                    return $target_file;
+                }
+            }
+            return null;
         }
 
         public function getCountries() {
             // Connection by dotenv data
             $pdo = new PDO($_ENV['dsn'], $_ENV['user'], $_ENV['password']);
-            // Receiveng all countries from database
+            // Receiving all countries from database
             $query = $pdo->prepare('SELECT * FROM countries');
             $query->execute();     
             $countries = $query->fetchAll(PDO::FETCH_ASSOC);
 
             return $countries;
+        }
+
+        public function getMembersCount() {
+            // Connection by dotenv data
+            $pdo = new PDO($_ENV['dsn'], $_ENV['user'], $_ENV['password']);
+            // Receiving count of users
+            $query = $pdo->prepare('SELECT COUNT(*) from users');
+            $query->execute();
+            $members_count = $query->fetchColumn();
+
+            return $members_count;
         }
     }
 ?>

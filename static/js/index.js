@@ -6,6 +6,8 @@ const prevButton = document.querySelector("#prev-button");
 const submitButton = document.querySelector("#submit-button");
 const registrationForm = document.querySelector("#registration-form");
 const errorsDiv = document.querySelector(".errors");
+const buttonsDiv = document.querySelector(".buttons");
+const linksDiv = document.querySelector(".links");
 
 // Switch form steps
 function changeStep(x){
@@ -25,7 +27,7 @@ function changeStep(x){
         step = 0;
     }
 
-    for (formStep of formSteps) {
+    for (let formStep of formSteps) {
         formStep.classList.add("hidden");
     }
     formSteps[step].classList.remove("hidden");
@@ -63,11 +65,19 @@ submitButton.addEventListener("click", (event)=>{
             while (errorsDiv.children.length !== 0) {
                 errorsDiv.firstChild.remove();
             }
+            console.log(xhr.response)
             let data = JSON.parse(xhr.response);
             for (const [key, value] of Object.entries(data)) {
                 let p = document.createElement('p');
                 p.textContent = `${key}: ${value}`;
                 errorsDiv.appendChild(p);
+            }
+            if (new Boolean(data)) {
+                for (let formStep of formSteps) {
+                    formStep.classList.add("hidden");
+                }
+                linksDiv.classList.remove("hidden");
+                buttonsDiv.classList.add("hidden");
             }
         }
     }

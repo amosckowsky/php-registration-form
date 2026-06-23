@@ -22,7 +22,7 @@
             // Check validation
             if ($this->service->validate($request->post)) {
                 // If form is valid - register user
-                $this->service->register($request->post);
+                $this->service->register($request->post, $request->files);
             }
             // Sending response with errors
             $response = new ResponseJSON($this->service->getErrors());
@@ -34,7 +34,9 @@
             $response->render([
                 'countries' => $this->service->getCountries(),
                 // Adding text for twitter post
-                'tw_text' => $this->kwargs["tw_text"]
+                'tw_text' => $this->kwargs['tw_text'],
+                'baseURL' => $this->kwargs['baseURL'],
+                'members_count' => $this->service->getMembersCount()
             ]);
         }
         // Adding handling function

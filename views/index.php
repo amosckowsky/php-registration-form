@@ -36,10 +36,10 @@
             <p><label for="about_me">About me:</label><textarea name="about_me"></textarea></p>
             <p><label for="photo">Photo:</label><input type="file" name="photo" accept="image/*"></p>
         </div>
-        <div class="form-step hidden">
+        <div class="links hidden">
             <?php
-                echo "<a target='_blank' rel='noopener noreferrer' href='https://twitter.com/intent/tweet?url=" . rawurlencode("https://uk.wikipedia.org/wiki/") . "&text=" . rawurlencode($tw_text) . "'><img class='share-image' src='static/img/twitter.svg' alt='Twitter'></a>";
-                echo "<a target='_blank' rel='noopener noreferrer' href='https://www.facebook.com/sharer/sharer.php?u=" . rawurlencode("https://uk.wikipedia.org/wiki/") . "'><img class='share-image' src='static/img/facebook.svg' alt='Twitter'></a>";
+                echo "<a target='_blank' rel='noopener noreferrer' href='https://twitter.com/intent/tweet?url=" . rawurlencode($tw_url) . "&text=" . rawurlencode($tw_text) . "'><img class='share-image' src='static/img/twitter.svg' alt='Twitter'></a>";
+                echo "<a target='_blank' rel='noopener noreferrer' href='https://www.facebook.com/sharer/sharer.php?u=" . rawurlencode($tw_url) . "'><img class='share-image' src='static/img/facebook.svg' alt='Twitter'></a>";
             ?>
         </div>
         <div class="buttons">
@@ -47,6 +47,9 @@
             <button id="next-button" type="button">Next</button>
             <button id="submit-button" class="hidden" type="submit">Submit</button>
         </div>
+        <?php
+            echo "<a href='$baseURL" . "all_members/'>All members($members_count)</a>"
+        ?>
     </form>
 
 </body>

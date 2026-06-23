@@ -24,8 +24,8 @@
         // Action transfer function
         public function handle(Request $request) {
             // If enpoint exists in current router - call handle of paired object
-            if (array_key_exists($request->listPath[$this->nesting], $this->routes)) {
-                $this->routes[$request->listPath[$this->nesting]]->handle($request);
+            if (array_key_exists($request->list_path[$this->nesting], $this->routes)) {
+                $this->routes[$request->list_path[$this->nesting]]->handle($request);
             // Else throw 404 page
             } else {
                 http_response_code(404);
