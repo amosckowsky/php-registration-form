@@ -15,7 +15,7 @@
             foreach($routes as $key => $value) {
                 // If a router as attached to the endpoint - its nesting will be 1 unit greater
                 if ($value instanceof Router) {
-                    $value.set_nest($this->nesting+1);
+                    $value->set_nest($this->nesting+1);
                 }
                 // Pair Controller/Router to endpoint
                 $this->routes[$key] = $value;
