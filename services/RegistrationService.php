@@ -94,28 +94,32 @@
             $query = $pdo->prepare("INSERT INTO users (first_name, last_name, birthdate, report_subject, country_id, phone, email, company, position, about_me, photo_path) VALUES (:first_name, :last_name, :birthdate, :report_subject, :country_id, :phone, :email, :company, :position, :about_me, :photo)");
             $query->execute($object);
         }
-
+        
+        // Function for saving photo in specific dir
         public function savePhoto($photo) {
             if (empty($photo) || !isset($photo['tmp_name']) || empty($photo['tmp_name'])) {
                 return null; 
             }
             $target_file = $this->media_path . uniqid('IMG_', true) . '.' . strtolower(pathinfo($photo['name'], PATHINFO_EXTENSION));
             $uploadOk = 1;
+            // Check image is real
             $check = getimagesize($photo["tmp_name"]);
             if($check !== false) {
                 $uploadOk = 1;
             } else {
                 $uploadOk = 0;
             }
+            // Check image size
             if ($photo["size"] > 500000) {
-                echo "Sorry, your file is too large.";
                 $uploadOk = 0;
             }
+            // Saving image
             if ($uploadOk == 1) {
                 if (move_uploaded_file($photo["tmp_name"], $target_file)) {
                     return $target_file;
                 }
             }
+            // If something went wrong - return null
             return null;
         }
 
@@ -139,6 +143,17 @@
             $members_count = $query->fetchColumn();
 
             return $members_count;
+        }
+
+        public function getMembers() {
+            // Connection by dotenv data
+            $pdo = new PDO($_ENV['dsn'], $_ENV['user'], $_ENV['password']);
+            // Receveing users data
+            $query = $pdo->prepare('SELECT photo_path, first_name, last_name, report_subject, email FROM users');
+            $query->execute();
+            $users = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            return $users;
         }
     }
 ?>

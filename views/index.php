@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/index.css">
-    <script defer src="static/js/index.js"></script>
+    <?php
+        echo "<link rel='stylesheet' href='$baseURL" . "static/css/index.css'>";
+        echo "<script defer src='$baseURL" . "static/js/index.js'></script>";
+    ?>
     <title>Index</title>
 </head>
 <body>

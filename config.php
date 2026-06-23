@@ -7,7 +7,7 @@
             'utils' => ['ControllerTrait', 'ControllerInterface'],
             'core' => ['Request', 'Response', 'ResponseJSON','Router'],
             'services' => ['RegistrationService'],
-            'controllers' => ['MainController']
+            'controllers' => ['MainController', 'AllMembersController']
         ],
         'tw_url' => 'https://albedo.dev/',
         'tw_text' => 'Check out this Meetup with SoCal AngularJS!'

@@ -1,6 +1,7 @@
 <?php
     use Core\Routing\Router;
     use Controllers\MainController;
+    use Controllers\AllMembersController;
     use Services\RegistrationService;
     use Core\Http\Request;
 
@@ -30,9 +31,12 @@
             // Connecting controller to endpoint
             '' => new MainController(new RegistrationService($config['media_path']), [
                     'tw_text' => $config['tw_text'],
+                    'tw_url' => $config['tw_url'],
                     'baseURL' => $config['baseURL'],
                 ]),
-            // 'all_members' => new
+            'all_members' => new AllMembersController(new RegistrationService($config['media_path']), [
+                    'baseURL' => $config['baseURL']
+                ])
         ]);
 
     // Clearing request url to obtain endpoints

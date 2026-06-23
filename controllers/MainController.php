@@ -35,6 +35,7 @@
                 'countries' => $this->service->getCountries(),
                 // Adding text for twitter post
                 'tw_text' => $this->kwargs['tw_text'],
+                'tw_url' => $this->kwargs['tw_url'],
                 'baseURL' => $this->kwargs['baseURL'],
                 'members_count' => $this->service->getMembersCount()
             ]);

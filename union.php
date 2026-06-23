@@ -1,7 +1,7 @@
 <?php
     // Function for loading all files from registryObject
-    function loadFiles(mixed $registryObject, string $objectKey) {
-        foreach ($registryObject as $file) {
+    function loadFiles(mixed $registryObjects, string $objectKey) {
+        foreach ($registryObjects as $file) {
                 require_once "$objectKey/$file.php";
             }
     }

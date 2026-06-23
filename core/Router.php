@@ -25,6 +25,12 @@
         public function handle(Request $request) {
             // If enpoint exists in current router - call handle of paired object
             if (array_key_exists($request->list_path[$this->nesting], $this->routes)) {
+                if (!($this->routes[$request->list_path[$this->nesting]] instanceof Router)) {
+                    if (count($request->list_path)-1 > $this->nesting && $request->list_path[$this->nesting+1] != '') {
+                        http_response_code(404);
+                        return null;
+                    }
+                }
                 $this->routes[$request->list_path[$this->nesting]]->handle($request);
             // Else throw 404 page
             } else {
