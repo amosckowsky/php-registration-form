@@ -4,9 +4,10 @@
         'baseURL' => '/php-registration-form/',
         'registry' => [
             'utils' => ['ControllerTrait', 'ControllerInterface'],
-            'core' => ['Request', 'Response', 'Router'],
+            'core' => ['Request', 'Response', 'ResponseJSON','Router'],
             'services' => ['RegistrationService'],
             'controllers' => ['MainController']
-        ]
+        ],
+        'tw_text' => 'Check out this Meetup with SoCal AngularJS!'
     ];
 ?>

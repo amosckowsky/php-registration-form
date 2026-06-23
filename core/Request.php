@@ -1,6 +1,7 @@
 <?php
     namespace Core\Http;
 
+    // Request object
     class Request {
         public readonly string $path;
         public readonly mixed $listPath;

@@ -15,7 +15,7 @@
     $dotenv->load();
 
     // Loading necessary data
-    $config = require __DIR__ . '/config.php';
+    $config = require_once __DIR__ . '/config.php';
 
     // Loading registry
     loadRegistry($config['registry']);
@@ -23,7 +23,7 @@
     // Creating router
     $router = new Router([
             // Connecting controller to endpoint
-            '' => new MainController(new RegistrationService())
+            '' => new MainController(new RegistrationService(), ["tw_text" => $config["tw_text"]])
         ]);
 
     // Clearing request url to obtain endpoints

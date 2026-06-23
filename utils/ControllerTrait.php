@@ -3,6 +3,7 @@
 
     use \Core\Http\Request;
 
+    // Handling function for all controllers
     trait ControllerTrait {
         public function handle(Request $request): void {
             if ($request->method == 'GET') {
