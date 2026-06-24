@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="email_checker" content=<?php echo $baseURL . "all_members/"; ?>>
     <?php
         echo "<link rel='stylesheet' href='$baseURL" . "static/css/index.css'>";
         echo "<script defer src='$baseURL" . "static/js/index.js'></script>";
@@ -18,9 +19,9 @@
         <div class="errors">
         </div>
         <div class="form-step">
-            <p><label for="first_name">First name:</label><input type="text" min='3' max='15' name='first_name' required></p>
-            <p><label for="las_name">Last name:</label><input type="text" min='3' max='20' name='last_name' required></p>
-            <p><label for="birthdate">Birthdate:</label><input type="date" name='birthdate' required></p>
+            <p><label for="first_name">First name:</label><input type="text" pattern=".{3,15}$" name='first_name' required></p>
+            <p><label for="las_name">Last name:</label><input type="text" pattern=".{3,20}$" name='last_name' required></p>
+            <p><label for="birthdate">Birthdate:</label><input id="birthdate" type="date" name='birthdate' required></p>
             <p><label for="report_subject">Report subject:</label><input type="text" name='report_subject' required></p>
             <p><label for="country_id">Country:</label><select name='country_id' required>
                 <?php
@@ -29,8 +30,8 @@
                     }
                 ?>
             </select></p>
-            <p><label for="phone">Phone:</label><input type="tel" pattern="[0-9]{12}" name='phone' required></p>
-            <p><label for="email">Email:</label><input type="email" name='email' max='100' required></p>
+            <p><label for="phone">Phone:</label><input type="tel" pattern="[0-9]{12}" placeholder="380999999999" name='phone' required></p>
+            <p><label for="email">Email:</label><input id="email" type="email" name='email' max='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}' required></p>
         </div>
         <div class="form-step hidden">
             <p><label for="company">Company:</label><input type="text" name="company"></p>

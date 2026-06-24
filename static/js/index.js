@@ -8,6 +8,16 @@ const registrationForm = document.querySelector("#registration-form");
 const errorsDiv = document.querySelector(".errors");
 const buttonsDiv = document.querySelector(".buttons");
 const linksDiv = document.querySelector(".links");
+const metaEmailChecker = document.querySelector('meta[name="email_checker"]');
+
+const today = new Date();
+const year = today.getFullYear();
+const month = String(today.getMonth() + 1).padStart(2, '0');
+const day = String(today.getDate()).padStart(2, '0');
+
+const maxDate = `${year}-${month}-${day}`;
+
+document.getElementById('birthdate').max = maxDate;
 
 // Switch form steps
 function changeStep(x){
@@ -16,6 +26,27 @@ function changeStep(x){
         for (let p of formSteps[step].children) {
             if (!p.lastChild.reportValidity()) {
                 return
+            }
+            if (p.lastChild.id == "email") {
+                let is_email_valid = false;
+                let xhr = new XMLHttpRequest();
+                xhr.open('post', metaEmailChecker.content, false);
+                let formData = new FormData();
+                formData.append('email', p.lastChild.value);
+                xhr.send(formData);
+                if (xhr.status == 200 && xhr.readyState == 4) {
+                    is_email_valid = JSON.parse(xhr.response)['is_email'];
+                }
+                if (is_email_valid) {
+                    while (errorsDiv.children.length !== 0) {
+                        errorsDiv.firstChild.remove();
+                    }
+                    let p = document.createElement('p');
+                    p.classList.add("error");
+                    p.textContent = `email: email is already in use`;
+                    errorsDiv.appendChild(p);
+                    return
+                }
             }
         }
     }
@@ -69,6 +100,7 @@ submitButton.addEventListener("click", (event)=>{
             let data = JSON.parse(xhr.response);
             for (const [key, value] of Object.entries(data)) {
                 let p = document.createElement('p');
+                p.classList.add("error");
                 p.textContent = `${key}: ${value}`;
                 errorsDiv.appendChild(p);
             }

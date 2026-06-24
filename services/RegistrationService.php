@@ -155,5 +155,16 @@
 
             return $users;
         }
+
+        public function checkEmail($email) {
+            // Connection by dotenv data
+            $pdo = new PDO($_ENV['dsn'], $_ENV['user'], $_ENV['password']);
+            // Receveing users data
+            $query = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = '$email'");
+            $query->execute();
+            $is_email = $query->fetchColumn();
+
+            return $is_email;
+        }
     }
 ?>

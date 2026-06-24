@@ -17,7 +17,10 @@
             $this->kwargs = $kwargs;
         }
 
-        public function post(Request $request): void {}
+        public function post(Request $request): void {
+            $response = new ResponseJSON(['is_email' => $this->service->checkEmail($request->post['email'])]);
+            $response->render();
+        }
 
         public function get(Request $request): void {
             $response = new Response('views/all_members.php');
