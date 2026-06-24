@@ -9,6 +9,7 @@ const errorsDiv = document.querySelector(".errors");
 const buttonsDiv = document.querySelector(".buttons");
 const linksDiv = document.querySelector(".links");
 const metaEmailChecker = document.querySelector('meta[name="email_checker"]');
+const membersCount = document.querySelector('#members-count');
 
 const today = new Date();
 const year = today.getFullYear();
@@ -21,34 +22,49 @@ document.getElementById('birthdate').max = maxDate;
 
 // Switch form steps
 function changeStep(x){
+    let errors = document.querySelectorAll(".error");
+    for (let error of errors) {
+        error.remove();
+    }
+    let is_valid = true
     if (x > 0) {
         // If steps move forward - check validation
         for (let p of formSteps[step].children) {
-            if (!p.lastChild.reportValidity()) {
-                return
+            if (p.classList.contains("error")) {
+                continue
+            }
+            if (!p.lastElementChild.checkValidity()) {
+                is_valid = false
+                let error = document.createElement('p');
+                error.classList.add("error");
+                error.innerHTML = p.lastElementChild.validationMessage;
+                if (p.lastElementChild.getAttribute("title") != null) {
+                    error.innerHTML += "<br>" + p.lastElementChild.getAttribute("title");
+                }
+                p.after(error);
             }
             if (p.lastChild.id == "email") {
-                let is_email_valid = false;
+                let is_email_invalid = false;
                 let xhr = new XMLHttpRequest();
                 xhr.open('post', metaEmailChecker.content, false);
                 let formData = new FormData();
                 formData.append('email', p.lastChild.value);
                 xhr.send(formData);
                 if (xhr.status == 200 && xhr.readyState == 4) {
-                    is_email_valid = JSON.parse(xhr.response)['is_email'];
+                    is_email_invalid = JSON.parse(xhr.response)['is_email'];
                 }
-                if (is_email_valid) {
-                    while (errorsDiv.children.length !== 0) {
-                        errorsDiv.firstChild.remove();
-                    }
-                    let p = document.createElement('p');
-                    p.classList.add("error");
-                    p.textContent = `email: email is already in use`;
-                    errorsDiv.appendChild(p);
-                    return
+                if (is_email_invalid) {
+                    let error = document.createElement('p');
+                    error.classList.add("error");
+                    error.textContent = 'email already in use';
+                    p.after(error);
+                    is_valid = false
                 }
             }
         }
+    }
+    if (!is_valid) {
+        return
     }
     step += x;
     if (step > maxStep) {
@@ -110,6 +126,7 @@ submitButton.addEventListener("click", (event)=>{
                 }
                 linksDiv.classList.remove("hidden");
                 buttonsDiv.classList.add("hidden");
+                membersCount.textContent = new Number(membersCount.textContent) + 1;
             }
         }
     }

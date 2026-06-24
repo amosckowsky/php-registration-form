@@ -14,28 +14,29 @@
     <?php
         require 'views/google_map.php';
     ?>
-    
+
     <form id="registration-form" method="post" enctype="multipart/form-data">
+        <h2>Registration</h2>
         <div class="errors">
         </div>
         <div class="form-step">
-            <p><label for="first_name">First name:</label><input type="text" pattern=".{3,15}$" name='first_name' required></p>
-            <p><label for="las_name">Last name:</label><input type="text" pattern=".{3,20}$" name='last_name' required></p>
-            <p><label for="birthdate">Birthdate:</label><input id="birthdate" type="date" name='birthdate' required></p>
-            <p><label for="report_subject">Report subject:</label><input type="text" name='report_subject' required></p>
-            <p><label for="country_id">Country:</label><select name='country_id' required>
+            <p><label for="first_name">First name:<em>*</em></label><input placeholder="Name, Length: 3-15" type="text" minlength="3" maxlength="15" name='first_name' required></p>
+            <p><label for="las_name">Last name:<em>*</em></label><input placeholder="Last name, Length: 3-20" type="text" minlength="3" maxlength="20" name='last_name' required></p>
+            <p><label for="birthdate">Birthdate:<em>*</em></label><input id="birthdate" type="date" name='birthdate' required></p>
+            <p><label for="report_subject">Report subject:<em>*</em></label><input placeholder="Report subject" type="text" name='report_subject' required></p>
+            <p><label for="country_id">Country:<em>*</em></label><select name='country_id' required>
                 <?php
                     foreach($countries as $index => $country) {
                         echo "<option value='" . $country['id'] . "'>" . $country['country_name'] . "</option>";
                     }
                 ?>
             </select></p>
-            <p><label for="phone">Phone:</label><input type="tel" pattern="[0-9]{12}" placeholder="380999999999" name='phone' required></p>
-            <p><label for="email">Email:</label><input id="email" type="email" name='email' max='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}' required></p>
+            <p><label for="phone">Phone:<em>*</em></label><input type="tel" pattern="[0-9]{12}" placeholder="380999999999" title="Format: 380991234567 (Without '+' and spaces)" name='phone' required></p>
+            <p><label for="email">Email:<em>*</em></label><input placeholder="example@gmail.com" id="email" type="email" name='email' max='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}' required></p>
         </div>
         <div class="form-step hidden">
-            <p><label for="company">Company:</label><input type="text" name="company"></p>
-            <p><label for="position">Position:</label><input type="text" name="position"></p>
+            <p><label for="company">Company:</label><input placeholder="Name of your company" type="text" name="company"></p>
+            <p><label for="position">Position:</label><input placeholder="Your position in company" type="text" name="position"></p>
             <p><label for="about_me">About me:</label><textarea name="about_me"></textarea></p>
             <p><label for="photo">Photo:</label><input type="file" name="photo" accept="image/*"></p>
         </div>
@@ -51,7 +52,7 @@
             <button id="submit-button" class="hidden" type="submit">Submit</button>
         </div>
         <?php
-            echo "<a href='$baseURL" . "all_members/'>All members($members_count)</a>"
+            echo "<a href='$baseURL" . "all_members/'>All members(<span id='members-count'>$members_count</span>)</a>"
         ?>
     </form>
 

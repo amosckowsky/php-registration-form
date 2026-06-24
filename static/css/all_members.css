@@ -10,11 +10,20 @@
 
 table {
   width: 100%;
+  max-width: 100%;
   background-color: white;
+  table-layout: fixed;
 }
 
 table, th, td {
   border:1px solid black;
+}
+
+td {
+  text-align: center;
+  overflow-wrap: break-word;
+  word-break: break-all;
+  max-width: 25%;
 }
 
 body {
@@ -29,6 +38,6 @@ body {
   box-sizing: border-box;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
   padding: 5px;
 }
