@@ -32,7 +32,7 @@
                 ?>
             </select></p>
             <p><label for="phone">Phone:<em>*</em></label><input type="tel" pattern="[0-9]{12}" placeholder="380999999999" title="Format: 380991234567 (Without '+' and spaces)" name='phone' required></p>
-            <p><label for="email">Email:<em>*</em></label><input placeholder="example@gmail.com" id="email" type="email" name='email' max='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}' required></p>
+            <p><label for="email">Email:<em>*</em></label><input placeholder="example@gmail.com" id="email" type="email" name='email' pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}' required></p>
         </div>
         <div class="form-step hidden">
             <p><label for="company">Company:</label><input placeholder="Name of your company" type="text" name="company"></p>

@@ -31,16 +31,22 @@ function changeStep(x){
         // If steps move forward - check validation
         for (let p of formSteps[step].children) {
             if (p.classList.contains("error")) {
-                continue
+                continue;
             }
-            if (!p.lastElementChild.checkValidity()) {
+
+            let inputElement = p.querySelector("input, select, textarea");
+
+            if (!inputElement) {
+                continue;
+            }
+            if (!inputElement.checkValidity()) {
                 is_valid = false
                 let error = document.createElement('p');
                 error.classList.add("error");
                 error.innerHTML = p.lastElementChild.validationMessage;
                 p.after(error);
             }
-            if (p.lastChild.id == "email") {
+            if (inputElement.id == "email") {
                 let is_email_invalid = false;
                 let xhr = new XMLHttpRequest();
                 xhr.open('post', metaEmailChecker.content, false);
