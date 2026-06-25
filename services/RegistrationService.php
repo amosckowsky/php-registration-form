@@ -7,16 +7,16 @@
     class RegistrationService {
         // Form validation rules
         private $rules = [
-            'first_name' => '/^.{3,15}$/',
-            'last_name' => '/^.{3,20}$/',
+            'first_name' => '/^.{3,15}$/u',
+            'last_name' => '/^.{3,20}$/u',
             'birthdate' => '/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/',
-            'report_subject' => '/^.+$/',
+            'report_subject' => '/^.+$/u',
             'country_id' => '/^\d+$/',
             'phone' => '/^\d{12}$/',
             'email' => '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
-            'company' => '/.*/',
-            'position' => '/.*/',
-            'about_me' => '/.*/'
+            'company' => '/.*/u',
+            'position' => '/.*/u',
+            'about_me' => '/.*/u'
         ];
         private $errors = [];
         private string $media_path;

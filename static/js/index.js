@@ -38,9 +38,6 @@ function changeStep(x){
                 let error = document.createElement('p');
                 error.classList.add("error");
                 error.innerHTML = p.lastElementChild.validationMessage;
-                if (p.lastElementChild.getAttribute("title") != null) {
-                    error.innerHTML += "<br>" + p.lastElementChild.getAttribute("title");
-                }
                 p.after(error);
             }
             if (p.lastChild.id == "email") {
@@ -49,6 +46,7 @@ function changeStep(x){
                 xhr.open('post', metaEmailChecker.content, false);
                 let formData = new FormData();
                 formData.append('email', p.lastChild.value);
+                formData.append('action', 'email');
                 xhr.send(formData);
                 if (xhr.status == 200 && xhr.readyState == 4) {
                     is_email_invalid = JSON.parse(xhr.response)['is_email'];
@@ -114,6 +112,7 @@ submitButton.addEventListener("click", (event)=>{
             }
             console.log(xhr.response)
             let data = JSON.parse(xhr.response);
+            console.log(data);
             for (const [key, value] of Object.entries(data)) {
                 let p = document.createElement('p');
                 p.classList.add("error");
@@ -126,10 +125,16 @@ submitButton.addEventListener("click", (event)=>{
                 }
                 linksDiv.classList.remove("hidden");
                 buttonsDiv.classList.add("hidden");
-                membersCount.textContent = new Number(membersCount.textContent) + 1;
             }
         }
+        let xhr2 = new XMLHttpRequest();
+        xhr2.open('post', metaEmailChecker.content, false);
+        let formData2 = new FormData();
+        formData2.append('action', 'count');
+        xhr2.send(formData2);
+        membersCount.textContent = JSON.parse(xhr2.response)['count'];
     }
     let formData = new FormData(registrationForm);
     xhr.send(formData);
+
 })

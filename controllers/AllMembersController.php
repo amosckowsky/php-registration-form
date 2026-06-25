@@ -18,8 +18,13 @@
         }
 
         public function post(Request $request): void {
-            $response = new ResponseJSON(['is_email' => $this->service->checkEmail($request->post['email'])]);
-            $response->render();
+            if ($request->post['action'] == 'email') {
+                $response = new ResponseJSON(['is_email' => $this->service->checkEmail($request->post['email'])]);
+                $response->render();
+            } else if($request->post['action'] == 'count') {
+                $response = new ResponseJSON(['count' => $this->service->getMembersCount()]);
+                $response->render();
+            }
         }
 
         public function get(Request $request): void {
