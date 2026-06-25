@@ -10,13 +10,13 @@
             'first_name' => '/^.{3,15}$/u',
             'last_name' => '/^.{3,20}$/u',
             'birthdate' => '/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/',
-            'report_subject' => '/^.+$/u',
+            'report_subject' => '/.{1, 200}/u',
             'country_id' => '/^\d+$/',
             'phone' => '/^\d{12}$/',
             'email' => '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
-            'company' => '/.*/u',
-            'position' => '/.*/u',
-            'about_me' => '/.*/u'
+            'company' => '/.{0, 200}/u',
+            'position' => '/.{0, 200}/u',
+            'about_me' => '/.{0, 200}/u'
         ];
         private $errors = [];
         private string $media_path;

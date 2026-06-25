@@ -10,6 +10,8 @@ const buttonsDiv = document.querySelector(".buttons");
 const linksDiv = document.querySelector(".links");
 const metaEmailChecker = document.querySelector('meta[name="email_checker"]');
 const membersCount = document.querySelector('#members-count');
+const deletePhoto = document.querySelector('#delete-photo');
+const formPhoto = document.querySelector("#form-photo");
 
 const today = new Date();
 const year = today.getFullYear();
@@ -142,5 +144,8 @@ submitButton.addEventListener("click", (event)=>{
     }
     let formData = new FormData(registrationForm);
     xhr.send(formData);
+})
 
+deletePhoto.addEventListener("click", () => {
+    formPhoto.value = null;
 })

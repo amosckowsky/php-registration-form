@@ -20,25 +20,31 @@
         <div class="errors">
         </div>
         <div class="form-step">
-            <p><label for="first_name">First name:<em>*</em></label><input placeholder="Name, Length: 3-15" type="text" minlength="3" maxlength="15" name='first_name' required></p>
-            <p><label for="las_name">Last name:<em>*</em></label><input placeholder="Last name, Length: 3-20" type="text" minlength="3" maxlength="20" name='last_name' required></p>
-            <p><label for="birthdate">Birthdate:<em>*</em></label><input id="birthdate" type="date" name='birthdate' required></p>
-            <p><label for="report_subject">Report subject:<em>*</em></label><input placeholder="Report subject" type="text" name='report_subject' required></p>
-            <p><label for="country_id">Country:<em>*</em></label><select name='country_id' required>
+            <div><label for="first_name">First name:<em>*</em></label><input placeholder="Name, Length: 3-15" type="text" minlength="3" maxlength="15" name='first_name' required></div>
+            <div><label for="las_name">Last name:<em>*</em></label><input placeholder="Last name, Length: 3-20" type="text" minlength="3" maxlength="20" name='last_name' required></div>
+            <div><label for="birthdate">Birthdate:<em>*</em></label><input id="birthdate" type="date" name='birthdate' required></div>
+            <div><label for="report_subject">Report subject:<em>*</em></label><input placeholder="Report subject" maxlength="200" type="text" name='report_subject' required></div>
+            <div><label for="country_id">Country:<em>*</em></label><select name='country_id' required>
                 <?php
                     foreach($countries as $index => $country) {
                         echo "<option value='" . $country['id'] . "'>" . $country['country_name'] . "</option>";
                     }
                 ?>
-            </select></p>
-            <p><label for="phone">Phone:<em>*</em></label><input type="tel" pattern="[0-9]{12}" placeholder="380999999999" title="Format: 380991234567 (Without '+' and spaces)" name='phone' required></p>
-            <p><label for="email">Email:<em>*</em></label><input placeholder="example@gmail.com" id="email" type="email" name='email' pattern='[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}' required></p>
+            </select></div>
+            <div><label for="phone">Phone:<em>*</em></label><input type="tel" pattern="[0-9]{12}" placeholder="380999999999" title="Format: 380991234567 (Without '+' and spaces)" name='phone' required></div>
+            <div><label for="email">Email:<em>*</em></label><input placeholder="example@gmail.com" id="email" type="email" name='email' required></div>
         </div>
         <div class="form-step hidden">
-            <p><label for="company">Company:</label><input placeholder="Name of your company" type="text" name="company"></p>
-            <p><label for="position">Position:</label><input placeholder="Your position in company" type="text" name="position"></p>
-            <p><label for="about_me">About me:</label><textarea name="about_me"></textarea></p>
-            <p><label for="photo">Photo:</label><input type="file" name="photo" accept="image/*"></p>
+            <div><label for="company">Company:</label><input placeholder="Name of your company" maxlength="200" type="text" name="company"></div>
+            <div><label for="position">Position:</label><input placeholder="Your position in company" maxlength="200" type="text" name="position"></div>
+            <div><label for="about_me">About me:</label><textarea maxlength="200" name="about_me"></textarea></div>
+            <div>
+                <label for="photo">Photo:</label>
+                <p>
+                    <input id="form-photo" type="file" name="photo" accept="image/*">
+                    <button type="button" id="delete-photo"><img class='share-image' src='static/img/trash.svg' alt='Delete'></button>
+                </p>
+            </div>
         </div>
         <div class="links hidden">
             <?php

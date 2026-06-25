@@ -30,9 +30,14 @@ label em {
     width: 300px;
 }
 
-.form-step p {
+.form-step div {
     display: flex;
     flex-direction: column;
+}
+
+.form-step p {
+    display: flex;
+    align-items: center;
 }
 
 .hidden {
@@ -71,4 +76,14 @@ label em {
 #submit-button {
     background: #9fc4aa;
     background: linear-gradient(40deg,rgba(159, 196, 170, 1) 17%, rgba(49, 179, 212, 1) 100%);
+}
+
+#delete-photo{
+    background-color: white;
+    display: inline;
+    border: 0;
+}
+
+#delete-photo img {
+    height: 40px;
 }
