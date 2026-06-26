@@ -16,7 +16,7 @@
     ?>
 
     <form id="registration-form" method="post" enctype="multipart/form-data">
-        <h2>Registration</h2>
+        <h3>To participate in the conference, <br>please fill out the form”</h3>
         <div class="errors">
         </div>
         <div class="form-step">

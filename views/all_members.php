@@ -25,9 +25,9 @@
                 } else {
                     echo '<td>' . '<img class="member-image" src="' . $baseURL . $user['photo_path'] . '" alt="Photo">' . '</td>';
                 }
-                echo '<td>' . $user['first_name'] . ' ' . $user['last_name'] . '</td>';
-                echo '<td>' . $user['report_subject'] . '</td>';
-                echo '<td><a href="mailto:' . $user['email'] . '">' . $user['email'] .'</a>' . '</td>';
+                echo '<td>' . htmlspecialchars($user['first_name'], ENT_QUOTES) . ' ' . htmlspecialchars($user['last_name'], ENT_QUOTES) . '</td>';
+                echo '<td>' . htmlspecialchars($user['report_subject'], ENT_QUOTES) . '</td>';
+                echo '<td><a href="mailto:' . htmlspecialchars($user['email'], ENT_QUOTES) . '">' . htmlspecialchars($user['email'], ENT_QUOTES) .'</a>' . '</td>';
                 echo '</tr>';
             }
         ?>

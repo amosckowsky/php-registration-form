@@ -29,12 +29,12 @@
     // Creating router
     $router = new Router([
             // Connecting controller to endpoint
-            '' => new MainController(new RegistrationService($config['media_path']), [
+            '' => new MainController(new RegistrationService($config['media_path'], $_ENV['dsn'], $_ENV['user'], $_ENV['password']), [
                     'tw_text' => $config['tw_text'],
                     'tw_url' => $config['tw_url'],
                     'baseURL' => $config['baseURL'],
                 ]),
-            'all_members' => new AllMembersController(new RegistrationService($config['media_path']), [
+            'all_members' => new AllMembersController(new RegistrationService($config['media_path'], $_ENV['dsn'], $_ENV['user'], $_ENV['password']), [
                     'baseURL' => $config['baseURL']
                 ])
         ]);

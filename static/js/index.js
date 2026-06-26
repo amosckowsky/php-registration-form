@@ -41,6 +41,7 @@ function changeStep(x){
             if (!inputElement) {
                 continue;
             }
+            console.log(inputElement)
             if (!inputElement.checkValidity()) {
                 is_valid = false
                 let error = document.createElement('p');
@@ -111,9 +112,17 @@ prevButton.addEventListener("click", ()=>{
 // Send form
 submitButton.addEventListener("click", (event)=>{
     event.preventDefault();
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending...";
+
+
     let xhr = new XMLHttpRequest();
     xhr.open("post", window.location.href);
     xhr.onload = ()=>{
+        submitButton.disabled = false;
+        submitButton.textContent = "Sumbit";
+
         if (xhr.status === 200 && xhr.readyState === 4) {
             while (errorsDiv.children.length !== 0) {
                 errorsDiv.firstChild.remove();
@@ -142,6 +151,12 @@ submitButton.addEventListener("click", (event)=>{
         xhr2.send(formData2);
         membersCount.textContent = JSON.parse(xhr2.response)['count'];
     }
+    xhr.onerror = () => {
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit";
+        alert("Network error. Try again");
+    };
+
     let formData = new FormData(registrationForm);
     xhr.send(formData);
 })

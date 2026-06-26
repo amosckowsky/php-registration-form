@@ -10,20 +10,21 @@
             'first_name' => '/^.{3,15}$/u',
             'last_name' => '/^.{3,20}$/u',
             'birthdate' => '/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/',
-            'report_subject' => '/.{1, 200}/u',
+            'report_subject' => '/^.{1,200}$/u',
             'country_id' => '/^\d+$/',
             'phone' => '/^\d{12}$/',
             'email' => '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
-            'company' => '/.{0, 200}/u',
-            'position' => '/.{0, 200}/u',
-            'about_me' => '/.{0, 200}/u'
+            'company' => '/^.{0,200}$/u',
+            'position' => '/^.{0,200}$/u',
+            'about_me' => '/^.{0,200}$/u'
         ];
         private $errors = [];
         private string $media_path;
 
 
-        public function __construct(string $media_path) {
+        public function __construct(string $media_path, string $dsn, string $user, string $password) {
             $this->media_path = $media_path;
+            $this->pdo = new PDO($dsn, $user, $password);
         }
 
         // Validating form
@@ -61,37 +62,8 @@
             } else {
                 $object['photo'] = null;
             }
-            // Connection by dotenv data
-            $pdo = new PDO($_ENV['dsn'], $_ENV['user'], $_ENV['password']);
-            // Creates countries table if not exists
-            $sql = '
-                CREATE TABLE IF NOT EXISTS countries (
-                    id INT AUTO_INCREMENT PRIMARY KEY,
-                    country_name VARCHAR(50) NOT NULL UNIQUE
-                );
-            ';
-            $pdo->exec($sql);
-            // Creates users table if not exists
-            $sql = '
-                CREATE TABLE IF NOT EXISTS users (
-                    id INT AUTO_INCREMENT PRIMARY KEY,
-                    first_name VARCHAR(15) NOT NULL,
-                    last_name VARCHAR(20) NOT NULL,
-                    email VARCHAR(100) NOT NULL UNIQUE,
-                    birthdate DATE NOT NULL,
-                    report_subject TEXT NOT NULL,
-                    country_id INT NOT NULL,
-                    phone VARCHAR(13) NOT NULL,
-                    company TEXT NULL,
-                    position TEXT NULL,
-                    about_me TEXT NULL,
-                    photo_path TEXT NULL,
-                    FOREIGN KEY (country_id) REFERENCES countries(id)
-                );
-            ';
-            $pdo->exec($sql);
             // Add new user
-            $query = $pdo->prepare("INSERT INTO users (first_name, last_name, birthdate, report_subject, country_id, phone, email, company, position, about_me, photo_path) VALUES (:first_name, :last_name, :birthdate, :report_subject, :country_id, :phone, :email, :company, :position, :about_me, :photo)");
+            $query = $this->pdo->prepare("INSERT INTO users (first_name, last_name, birthdate, report_subject, country_id, phone, email, company, position, about_me, photo_path) VALUES (:first_name, :last_name, :birthdate, :report_subject, :country_id, :phone, :email, :company, :position, :about_me, :photo)");
             $query->execute($object);
         }
         
@@ -110,7 +82,7 @@
                 $uploadOk = 0;
             }
             // Check image size
-            if ($photo["size"] > 500000) {
+            if ($photo["size"] > 5242880) {
                 $uploadOk = 0;
             }
             // Saving image
@@ -124,10 +96,8 @@
         }
 
         public function getCountries() {
-            // Connection by dotenv data
-            $pdo = new PDO($_ENV['dsn'], $_ENV['user'], $_ENV['password']);
             // Receiving all countries from database
-            $query = $pdo->prepare('SELECT * FROM countries');
+            $query = $this->pdo->prepare('SELECT * FROM countries');
             $query->execute();     
             $countries = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -135,10 +105,8 @@
         }
 
         public function getMembersCount() {
-            // Connection by dotenv data
-            $pdo = new PDO($_ENV['dsn'], $_ENV['user'], $_ENV['password']);
             // Receiving count of users
-            $query = $pdo->prepare('SELECT COUNT(*) from users');
+            $query = $this->pdo->prepare('SELECT COUNT(*) from users');
             $query->execute();
             $members_count = $query->fetchColumn();
 
@@ -146,10 +114,8 @@
         }
 
         public function getMembers() {
-            // Connection by dotenv data
-            $pdo = new PDO($_ENV['dsn'], $_ENV['user'], $_ENV['password']);
             // Receveing users data
-            $query = $pdo->prepare('SELECT photo_path, first_name, last_name, report_subject, email FROM users');
+            $query = $this->pdo->prepare('SELECT photo_path, first_name, last_name, report_subject, email FROM users');
             $query->execute();
             $users = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -157,11 +123,9 @@
         }
 
         public function checkEmail($email) {
-            // Connection by dotenv data
-            $pdo = new PDO($_ENV['dsn'], $_ENV['user'], $_ENV['password']);
             // Receveing users data
-            $query = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = '$email'");
-            $query->execute();
+            $query = $this->pdo->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
+            $query->execute([$email]);
             $is_email = $query->fetchColumn();
 
             return $is_email;
